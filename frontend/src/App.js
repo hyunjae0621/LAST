@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import LoginPage from './pages/LoginPage';
 import DashboardLayout from './layouts/DashboardLayout';
+import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import './App.css';
 
@@ -17,7 +18,7 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout>
-                <div>대시보드 내용</div>
+                <DashboardPage />
               </DashboardLayout>
             </ProtectedRoute>
           }
