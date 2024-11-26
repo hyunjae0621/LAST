@@ -2,12 +2,13 @@
 
 from django.contrib import admin
 from django.urls import path
-from django.http import JsonResponse
-
-def health_check(request):
-    return JsonResponse({"status": "ok"})
+from rest_framework_simplejwt.views import TokenRefreshView
+from accounts.views import CustomTokenObtainPairView, register_user, get_user_info
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('health/', health_check, name='health_check'),
+    path('api/auth/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/auth/register/', register_user, name='register'),
+    path('api/auth/me/', get_user_info, name='user_info'),
 ]

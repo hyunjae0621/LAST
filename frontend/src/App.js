@@ -1,15 +1,30 @@
 // frontend/src/App.js
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import LoginPage from './pages/LoginPage';
+import DashboardLayout from './layouts/DashboardLayout';
+import ProtectedRoute from './components/common/ProtectedRoute';
 import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <AuthProvider>
       <Routes>
-        <Route path="/" element={<div className="p-4">댄스 아카데미에 오신 것을 환영합니다!</div>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <div>대시보드 내용</div>
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
-    </div>
+    </AuthProvider>
   );
 }
 
