@@ -14,14 +14,29 @@ class StudentProfileSerializer(serializers.ModelSerializer):
         fields = ('gender', 'birth_date', 'emergency_contact', 'address', 'note', 'join_date', 'last_visit')
 
 class StudentListSerializer(serializers.ModelSerializer):
-    profile = StudentProfileSerializer(source='student_profile')
-    active_subscriptions_count = serializers.IntegerField(read_only=True)
-    attendance_rate = serializers.FloatField(read_only=True)
-    
+    profile = StudentProfileSerializer()
+
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'phone_number', 'profile', 
-                'active_subscriptions_count', 'attendance_rate', 'is_active')
+                'is_active')
+        # 'active_subscriptions_count', 'attendance_rate',
+
+
+        def to_representation(self, instance):
+        # profile이 없는 경우 빈 객체 반환
+          representation = super().to_representation(instance)
+          if not representation.get('profile'):
+              representation['profile'] = {
+                  'gender': 'M',
+                  'birth_date': None,
+                  'emergency_contact': '',
+                  'address': '',
+                  'note': '',
+                  'join_date': instance.date_joined.strftime('%Y-%m-%d'),
+                  'last_visit': None
+              }
+          return representation
 
 class StudentDetailSerializer(StudentListSerializer):
     class Meta(StudentListSerializer.Meta):

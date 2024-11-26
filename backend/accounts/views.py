@@ -16,6 +16,7 @@ from attendance.models import Attendance
 User = get_user_model()
 
 class StudentViewSet(viewsets.ModelViewSet):
+    serializer_class = StudentListSerializer
     queryset = User.objects.filter(user_type='student')
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'email', 'phone_number', 'student_profile__emergency_contact']
@@ -28,13 +29,13 @@ class StudentViewSet(viewsets.ModelViewSet):
         return StudentDetailSerializer
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        
-        # 활성 수강권 수 계산
-        queryset = queryset.annotate(
+        return User.objects.filter(user_type='student').select_related('profile').annotate(
             active_subscriptions_count=Count(
                 'subscription',
                 filter=Q(subscription__status='active')
+            ),
+            attendance_rate=Avg('attendance__status',
+                filter=Q(attendance__status='present')
             )
         )
         
@@ -65,10 +66,15 @@ class StudentViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def attendance_history(self, request, pk=None):
+        print(1)
         student = self.get_object()
+        print(1)
         attendance = student.attendance_set.all().order_by('-date')
+        print(1)
         from attendance.serializers import AttendanceListSerializer
+        print(1)
         return Response(AttendanceListSerializer(attendance, many=True).data)
+        
     
 
     def perform_create(self, serializer):

@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 class User(AbstractUser):
     USER_TYPE_CHOICES = (
@@ -9,32 +10,14 @@ class User(AbstractUser):
         ('instructor', '강사'),
         ('student', '수강생'),
     )
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='student')
+    
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
     phone_number = models.CharField(max_length=11, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_user_set',
-        blank=True,
-        verbose_name='groups',
-        help_text='The groups this user belongs to.',
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_user_set',
-        blank=True,
-        verbose_name='user permissions',
-        help_text='Specific permissions for this user.',
-    )
-
+    
     class Meta:
         db_table = 'user'
-
-    def __str__(self):
-        return f"{self.username} ({self.get_user_type_display()})"
-    
 
 class StudentProfile(models.Model):
     GENDER_CHOICES = (
@@ -45,12 +28,12 @@ class StudentProfile(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
-        limit_choices_to={'user_type': 'student'},
-        related_name='student_profile'
+        related_name='profile'
     )
     gender = models.CharField(
         max_length=1,
         choices=GENDER_CHOICES,
+        default='M',
         verbose_name='성별'
     )
     birth_date = models.DateField(
@@ -73,7 +56,7 @@ class StudentProfile(models.Model):
         verbose_name='특이사항'
     )
     join_date = models.DateField(
-        auto_now_add=True,
+        default=timezone.now,
         verbose_name='가입일'
     )
     last_visit = models.DateTimeField(
@@ -86,6 +69,3 @@ class StudentProfile(models.Model):
         db_table = 'student_profile'
         verbose_name = '수강생 프로필'
         verbose_name_plural = '수강생 프로필 목록'
-
-    def __str__(self):
-        return f"{self.user.username}의 프로필"
