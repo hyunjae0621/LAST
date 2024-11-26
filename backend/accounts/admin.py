@@ -6,7 +6,7 @@ from .models import User
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'user_type', 'phone_number', 'is_active')
+    list_display = ('username', 'email', 'user_type', 'phone_number', 'is_active', 'user_type')
     list_filter = ('user_type', 'is_active')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),

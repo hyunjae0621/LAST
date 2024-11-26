@@ -9,8 +9,7 @@ class User(AbstractUser):
         ('instructor', '강사'),
         ('student', '수강생'),
     )
-    
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='student')
     phone_number = models.CharField(max_length=11, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
