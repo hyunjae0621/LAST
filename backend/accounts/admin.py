@@ -2,7 +2,28 @@
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, StudentProfile
+
+
+
+@admin.register(StudentProfile)
+class StudentProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'gender', 'birth_date', 'emergency_contact', 'join_date', 'last_visit')
+    list_filter = ('gender', 'join_date')
+    search_fields = ('user__username', 'user__email', 'emergency_contact')
+    readonly_fields = ('join_date',)
+    fieldsets = (
+        ('기본 정보', {
+            'fields': ('user', 'gender', 'birth_date')
+        }),
+        ('연락처', {
+            'fields': ('emergency_contact', 'address')
+        }),
+        ('추가 정보', {
+            'fields': ('note', 'join_date', 'last_visit')
+        })
+    )
+
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
