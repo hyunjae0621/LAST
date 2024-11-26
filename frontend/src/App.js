@@ -14,8 +14,12 @@ import ClassListPage from './pages/classes/ClassListPage';
 import ClassCreatePage from './pages/classes/ClassCreatePage';
 import ClassDetailPage from './pages/classes/ClassDetailPage';
 import ClassEditPage from './pages/classes/ClassEditPage';
-
+import MakeupClassPage from './pages/attendance/MakeupClassPage';
 import AttendancePage from './pages/attendance/AttendancePage';
+import SubscriptionListPage from './pages/subscriptions/SubscriptionListPage';
+import SubscriptionCreatePage from './pages/subscriptions/SubscriptionCreatePage';
+import SubscriptionDetailPage from './pages/subscriptions/SubscriptionDetailPage';
+import SubscriptionEditPage from './pages/subscriptions/SubscriptionEditPage';
 
 import './App.css';
 
@@ -120,6 +124,56 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <AttendancePage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/makeup"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <MakeupClassPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/subscriptions"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <SubscriptionListPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/subscriptions/new"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <SubscriptionCreatePage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/subscriptions/:id"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <SubscriptionDetailPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/subscriptions/:id/edit"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <SubscriptionEditPage />
               </DashboardLayout>
             </ProtectedRoute>
           }

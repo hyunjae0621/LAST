@@ -8,6 +8,7 @@ from classes.views import dashboard_stats, todays_classes, DanceClassViewSet
 from rest_framework.routers import DefaultRouter
 from accounts.views import StudentViewSet
 from attendance.views import AttendanceViewSet, MakeupClassViewSet
+from subscriptions.views import SubscriptionViewSet
 
 
 router = DefaultRouter()
@@ -15,6 +16,7 @@ router.register(r'students', StudentViewSet)
 router.register(r'classes', DanceClassViewSet, basename='class')
 router.register(r'attendance', AttendanceViewSet, basename='attendance')
 router.register(r'makeup', MakeupClassViewSet, basename='makeup')
+router.register(r'subscriptions', SubscriptionViewSet, basename='subscription')
 
 
 urlpatterns = [
