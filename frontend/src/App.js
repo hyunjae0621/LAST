@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardLayout from './layouts/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/common/ProtectedRoute';
+import StudentListPage from './pages/students/StudentListPage';
 import './App.css';
 
 function App() {
@@ -19,6 +20,16 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <DashboardPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <StudentListPage />
               </DashboardLayout>
             </ProtectedRoute>
           }
