@@ -4,12 +4,17 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 from accounts.views import CustomTokenObtainPairView, register_user, get_user_info
-from classes.views import dashboard_stats, todays_classes
+from classes.views import dashboard_stats, todays_classes, DanceClassViewSet
 from rest_framework.routers import DefaultRouter
 from accounts.views import StudentViewSet
+from attendance.views import AttendanceViewSet, MakeupClassViewSet
+
 
 router = DefaultRouter()
 router.register(r'students', StudentViewSet)
+router.register(r'classes', DanceClassViewSet, basename='class')
+router.register(r'attendance', AttendanceViewSet, basename='attendance')
+router.register(r'makeup', MakeupClassViewSet, basename='makeup')
 
 
 urlpatterns = [

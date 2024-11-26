@@ -10,6 +10,13 @@ import StudentListPage from './pages/students/StudentListPage';
 import StudentDetailPage from './pages/students/StudentDetailPage';
 import StudentCreatePage from './pages/students/StudentCreatePage';
 import StudentEditPage from './pages/students/StudentEditPage';
+import ClassListPage from './pages/classes/ClassListPage';
+import ClassCreatePage from './pages/classes/ClassCreatePage';
+import ClassDetailPage from './pages/classes/ClassDetailPage';
+import ClassEditPage from './pages/classes/ClassEditPage';
+
+import AttendancePage from './pages/attendance/AttendancePage';
+
 import './App.css';
 
 function App() {
@@ -63,6 +70,56 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <StudentEditPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/classes"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ClassListPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/classes/new"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ClassCreatePage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/classes/:id"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ClassDetailPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/classes/:id/edit"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ClassEditPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/attendance"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <AttendancePage />
               </DashboardLayout>
             </ProtectedRoute>
           }

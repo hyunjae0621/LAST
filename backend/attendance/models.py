@@ -43,9 +43,14 @@ class Attendance(models.Model):
 
     class Meta:
         db_table = 'attendance'
-        verbose_name = '출결'
-        verbose_name_plural = '출결 목록'
-        unique_together = ['student', 'dance_class', 'date']
+        verbose_name = '출석'
+        verbose_name_plural = '출석 관리'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['student', 'dance_class', 'date'],
+                name='unique_daily_attendance'
+            )
+        ]
 
     def __str__(self):
         return f"{self.student.username} - {self.dance_class.name} ({self.date})"
@@ -66,7 +71,7 @@ class MakeupClass(models.Model):
     original_class = models.ForeignKey(
         'classes.ClassSchedule',
         on_delete=models.PROTECT,
-        related_name='original_classes',
+        related_name='original_makeup_classes',
         verbose_name='원래 수업'
     )
     makeup_class = models.ForeignKey(

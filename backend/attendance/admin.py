@@ -8,6 +8,7 @@ class AttendanceAdmin(admin.ModelAdmin):
     list_display = ('date', 'student', 'dance_class', 'schedule', 'status')
     list_filter = ('date', 'status', 'dance_class')
     search_fields = ('student__username', 'dance_class__name')
+    
     date_hierarchy = 'date'
     
     fieldsets = (
