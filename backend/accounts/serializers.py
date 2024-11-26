@@ -20,8 +20,11 @@ class StudentListSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'phone_number', 'profile', 
                 'is_active')
-        # 'active_subscriptions_count', 'attendance_rate',
-
+        
+        #TODO 'active_subscriptions_count', 'attendance_rate',
+        #TODO
+        #TODO
+        #TODO
 
         def to_representation(self, instance):
         # profile이 없는 경우 빈 객체 반환

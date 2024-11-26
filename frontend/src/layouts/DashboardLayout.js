@@ -8,7 +8,8 @@ import {
   CalendarIcon,
   AcademicCapIcon,
   BellIcon,
-  Bars3Icon
+  Bars3Icon,
+  GiftTopIcon,
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -18,6 +19,7 @@ const navigation = [
   { name: '수강생 관리', href: '/students', icon: UserGroupIcon },
   { name: '수업 관리', href: '/classes', icon: AcademicCapIcon },
   { name: '일정 관리', href: '/schedule', icon: CalendarIcon },
+  { name: '팝업 클래스', href: '/popup', icon: GiftTopIcon },
 ];
 
 function classNames(...classes) {
@@ -38,7 +40,11 @@ export default function DashboardLayout({ children }) {
   return (
     <div>
       <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
+        <Dialog
+          as="div"
+          className="relative z-50 lg:hidden"
+          onClose={setSidebarOpen}
+        >
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -113,11 +119,7 @@ export default function DashboardLayout({ children }) {
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
           <div className="flex h-16 shrink-0 items-center">
-            <img
-              className="h-8 w-auto"
-              src="/logo.png"
-              alt="댄스 아카데미"
-            />
+            <img className="h-8 w-auto" src="/logo.png" alt="댄스 아카데미" />
           </div>
           <nav className="flex flex-1 flex-col">
             <ul className="flex flex-1 flex-col gap-y-7">
@@ -178,7 +180,10 @@ export default function DashboardLayout({ children }) {
               </button>
 
               {/* Separator */}
-              <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
+              <div
+                className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200"
+                aria-hidden="true"
+              />
 
               {/* Profile dropdown */}
               <Menu as="div" className="relative">
@@ -190,7 +195,10 @@ export default function DashboardLayout({ children }) {
                     alt=""
                   />
                   <span className="hidden lg:flex lg:items-center">
-                    <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
+                    <span
+                      className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                      aria-hidden="true"
+                    >
                       {user?.username}
                     </span>
                   </span>
