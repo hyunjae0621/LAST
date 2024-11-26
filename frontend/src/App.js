@@ -7,6 +7,9 @@ import DashboardLayout from './layouts/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import StudentListPage from './pages/students/StudentListPage';
+import StudentDetailPage from './pages/students/StudentDetailPage';
+import StudentCreatePage from './pages/students/StudentCreatePage';
+import StudentEditPage from './pages/students/StudentEditPage';
 import './App.css';
 
 function App() {
@@ -30,6 +33,36 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <StudentListPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students/:id"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <StudentDetailPage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students/new"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <StudentCreatePage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/students/:id/edit"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <StudentEditPage />
               </DashboardLayout>
             </ProtectedRoute>
           }
