@@ -76,9 +76,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         
         return token
 
+class StudentBirthdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentProfile
+        fields = ('birth_date',)
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
-
+    
     class Meta:
         model = User
         fields = ('id', 'username', 'password', 'email', 'user_type', 'phone_number', 'date_of_birth')

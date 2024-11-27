@@ -62,6 +62,13 @@ class DanceClass(models.Model):
     @property
     def current_students_count(self):
         return self.subscription_set.filter(status='active').count()
+    
+    @current_students_count.setter
+    def current_students_count(self, value):
+        if value < 0:
+            raise ValueError("학생 수는 0 이상이어야 합니다.")
+        self._current_students_count = value
+
 
 class ClassSchedule(models.Model):
     WEEKDAY_CHOICES = (

@@ -26,12 +26,12 @@ class DanceClassViewSet(viewsets.ModelViewSet):
         queryset = DanceClass.objects.select_related('instructor').prefetch_related('schedules')
         
         # 현재 수강생 수 계산
-        queryset = queryset.annotate(
-            current_students_count=Count(
-                'subscription',
-                filter=Q(subscription__status='active')
-            )
-        )
+        # queryset = queryset.annotate(
+        #     current_students_count=Count(
+        #         'subscription',
+        #         filter=Q(subscription__status='active')
+        #     )
+        # )
 
         # 검색 기능
         search = self.request.query_params.get('search', None)
