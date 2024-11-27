@@ -1,0 +1,35 @@
+
+{% extends "notifications/email/base.html" %}
+{% block content %}
+<h2>수강권 만료 예정 알림</h2>
+<p>안녕하세요, {{ student_name }}님!</p>
+<p>{{ class_name }} 수업의 수강권이 7일 후 만료될 예정입니다.</p>
+<p>만료일: {{ expiry_date }}</p>
+<p>수강을 계속하시려면 수강권을 갱신해주세요.</p>
+<a href="{{ renewal_url }}" class="button">수강권 갱신하기</a>
+{% endblock %}
+
+# backend/notifications/templates/notifications/email/class_reminder.html
+{% extends "notifications/email/base.html" %}
+{% block content %}
+<h2>수업 알림</h2>
+<p>안녕하세요, {{ student_name }}님!</p>
+<p>오늘 {{ class_time }}에 {{ class_name }} 수업이 있습니다.</p>
+<p>수업 장소: {{ class_room }}</p>
+<p>강사: {{ instructor_name }}</p>
+<a href="{{ class_url }}" class="button">수업 정보 보기</a>
+{% endblock %}
+
+# backend/notifications/templates/notifications/email/makeup_status.html
+{% extends "notifications/email/base.html" %}
+{% block content %}
+<h2>보강 상태 변경</h2>
+<p>안녕하세요, {{ student_name }}님!</p>
+<p>{{ class_name }} 수업의 보강 신청 상태가 변경되었습니다.</p>
+<p><strong>{{ status_message }}</strong></p>
+{% if approved %}
+<p>보강 일시: {{ makeup_date }} {{ makeup_time }}</p>
+<p>수업 장소: {{ class_room }}</p>
+{% endif %}
+<a href="{{ makeup_url }}" class="button">자세히 보기</a>
+{% endblock %}

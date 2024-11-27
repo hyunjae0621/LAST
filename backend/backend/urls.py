@@ -11,6 +11,7 @@ from attendance.views import AttendanceViewSet, MakeupClassViewSet
 from subscriptions.views import SubscriptionViewSet
 
 
+
 router = DefaultRouter()
 router.register(r'students', StudentViewSet)
 router.register(r'classes', DanceClassViewSet, basename='class')
@@ -29,4 +30,5 @@ urlpatterns = [
     path('api/dashboard/stats/', dashboard_stats, name='dashboard_stats'),
     path('api/dashboard/today-classes/', todays_classes, name='today_classes'),
     path('api/', include(router.urls)),
+
 ]

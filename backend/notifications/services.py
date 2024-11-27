@@ -1,19 +1,37 @@
 # backend/notifications/services.py
-
 from django.core.mail import send_mail
 from django.conf import settings
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 from .models import Notification
 
 class NotificationService:
     @staticmethod
     async def create_notification(user, type, title, message, link=''):
-        """알림 생성"""
+        """알림 생성 및 실시간 전송"""
         notification = await Notification.objects.acreate(
             user=user,
             type=type,
             title=title,
             message=message,
             link=link
+        )
+
+        # 웹소켓으로 실시간 알림 전송
+        channel_layer = get_channel_layer()
+        await channel_layer.group_send(
+            f"user_{user.id}",
+            {
+                "type": "notification_message",
+                "message": {
+                    "id": notification.id,
+                    "type": notification.type,
+                    "title": notification.title,
+                    "message": notification.message,
+                    "link": notification.link,
+                    "created_at": notification.created_at.isoformat()
+                }
+            }
         )
         
         # 사용자의 알림 설정 확인
@@ -36,17 +54,6 @@ class NotificationService:
         return notification
 
     @staticmethod
-    async def create_subscription_expiry_notification(subscription):
-        """수강권 만료 알림 생성"""
-        await NotificationService.create_notification(
-            user=subscription.student,
-            type='subscription_expiry',
-            title='수강권 만료 예정',
-            message=f'{subscription.dance_class.name} 수업의 수강권이 7일 후 만료됩니다.',
-            link=f'/subscriptions/{subscription.id}'
-        )
-
-    @staticmethod
     async def create_class_reminder_notification(attendance):
         """수업 알림 생성"""
         await NotificationService.create_notification(
@@ -55,6 +62,17 @@ class NotificationService:
             title='수업 알림',
             message=f'오늘 {attendance.schedule.start_time.strftime("%H:%M")}에 {attendance.dance_class.name} 수업이 있습니다.',
             link=f'/classes/{attendance.dance_class.id}'
+        )
+
+    @staticmethod
+    async def create_subscription_expiry_notification(subscription):
+        """수강권 만료 알림 생성"""
+        await NotificationService.create_notification(
+            user=subscription.student,
+            type='subscription_expiry',
+            title='수강권 만료 예정',
+            message=f'{subscription.dance_class.name} 수업의 수강권이 7일 후 만료됩니다.',
+            link=f'/subscriptions/{subscription.id}'
         )
 
     @staticmethod

@@ -4,6 +4,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from datetime import timedelta
+from channels.routing import ProtocolTypeRouter
+
 
 load_dotenv()
 
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'subscriptions',
     'attendance',
     'notifications',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -110,3 +113,51 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'accounts.User'
+
+ASGI_APPLICATION = 'backend.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+
+# Celery 설정
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Seoul'
+
+
+# celery beat 설정
+CELERY_BEAT_SCHEDULE = {
+    'check-subscription-expiry': {
+        'task': 'notifications.tasks.check_subscription_expiry',
+        'schedule': timedelta(days=1),  # 매일 실행
+        'options': {'expires': 3600}
+    },
+    'send-class-reminders': {
+        'task': 'notifications.tasks.send_class_reminders',
+        'schedule': timedelta(minutes=30),  # 30분마다 실행
+        'options': {'expires': 1800}
+    },
+}
+
+
+# 이메일 설정
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # 또는 다른 SMTP 서버
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'Dance Academy <noreply@danceacademy.com>'
+
+# 프론트엔드 URL (이메일 템플릿에서 사용)
+FRONTEND_URL = 'http://localhost:3000'
