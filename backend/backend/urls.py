@@ -9,6 +9,13 @@ from rest_framework.routers import DefaultRouter
 from accounts.views import StudentViewSet
 from attendance.views import AttendanceViewSet, MakeupClassViewSet
 from subscriptions.views import SubscriptionViewSet
+from accounts.views.analytics_views import (
+    enrollment_trends,
+    retention_analysis,
+    class_preferences,
+    student_behavior
+)
+
 
 
 
@@ -30,5 +37,9 @@ urlpatterns = [
     path('api/dashboard/stats/', dashboard_stats, name='dashboard_stats'),
     path('api/dashboard/today-classes/', todays_classes, name='today_classes'),
     path('api/', include(router.urls)),
+    path('api/analytics/enrollment-trends/', enrollment_trends, name='enrollment-trends'),
+    path('api/analytics/retention/', retention_analysis, name='retention-analysis'),
+    path('api/analytics/class-preferences/', class_preferences, name='class-preferences'),
+    path('api/analytics/student-behavior/<int:student_id>/', student_behavior, name='student-behavior'),
 
 ]

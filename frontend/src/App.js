@@ -20,6 +20,9 @@ import SubscriptionListPage from './pages/subscriptions/SubscriptionListPage';
 import SubscriptionCreatePage from './pages/subscriptions/SubscriptionCreatePage';
 import SubscriptionDetailPage from './pages/subscriptions/SubscriptionDetailPage';
 import SubscriptionEditPage from './pages/subscriptions/SubscriptionEditPage';
+import RevenueStatsPage from './pages/revenue/RevenueStatsPage';
+import StudentAnalyticsPage from './pages/analytics/StudentAnalyticsPage';
+
 
 import './App.css';
 
@@ -178,6 +181,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/revenue/stats" element={<RevenueStatsPage />} />
+        <Route path="/analytics/students" element={<StudentAnalyticsPage />} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </AuthProvider>
